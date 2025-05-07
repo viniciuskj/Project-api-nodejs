@@ -1,16 +1,12 @@
 import fastify from 'fastify'
-import { knex } from './database'
 import { env } from './env'
+import { transactionsRoutes } from './routes/transactions'
 
 // Cria a base da aplicaçao web, app passa a ser usada para usar as funcionalidades
 const app = fastify()
 
-// GET - POST - PUT - PATCH - DELETE -> Podemos chamr a funçao de cada para oo app
-app.get('/hello', async () => {
-  const tables = await knex('sqlite_schema').select('*')
-
-  return tables
-})
+// Registra as rotas, mas é sempre em sequencia
+app.register(transactionsRoutes)
 
 // Funçao para atribuir uma porta pra aplicaçao web
 app
