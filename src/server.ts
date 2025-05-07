@@ -1,5 +1,6 @@
 import fastify from 'fastify'
 import { knex } from './database'
+import { env } from './env'
 
 // Cria a base da aplicaçao web, app passa a ser usada para usar as funcionalidades
 const app = fastify()
@@ -14,7 +15,7 @@ app.get('/hello', async () => {
 // Funçao para atribuir uma porta pra aplicaçao web
 app
   .listen({
-    port: 3000,
+    port: env.PORT,
   })
   .then(() => {
     // Listen é uma promise, entao quando ela for executada, .then para ter resposata

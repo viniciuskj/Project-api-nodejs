@@ -1,4 +1,10 @@
 import { knex as setupKnex, Knex } from 'knex'
+import { env } from './env'
+
+// Verificaçaose possui a database_url no .env
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL env not found')
+}
 
 // Configuraçao do knex
 export const config: Knex.Config = {
@@ -6,7 +12,7 @@ export const config: Knex.Config = {
   client: 'sqlite',
   // Faz a conexao
   connection: {
-    filename: './database/app.db',
+    filename: env.DATABASE_URL,
   },
   useNullAsDefault: true,
   // Onde criar a migration
