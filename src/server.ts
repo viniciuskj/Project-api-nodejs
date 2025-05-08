@@ -1,17 +1,5 @@
-import fastify from 'fastify'
 import { env } from './env'
-import { transactionsRoutes } from './routes/transactions'
-import cookie from '@fastify/cookie'
-
-// Cria a base da aplicaçao web, app passa a ser usada para usar as funcionalidades
-const app = fastify()
-
-// Registrar os cookies
-app.register(cookie)
-// Registra as rotas, mas é sempre em sequencia
-app.register(transactionsRoutes, {
-  prefix: 'transactions',
-})
+import { app } from '../src/app'
 
 // Funçao para atribuir uma porta pra aplicaçao web
 app
