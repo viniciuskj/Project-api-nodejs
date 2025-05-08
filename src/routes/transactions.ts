@@ -26,8 +26,46 @@ export async function transactionsRoutes(app: FastifyInstance) {
   })
 
   app.get('/', async (request, reply) => {
-    const result = await knex.select('*').from('transactions')
+    // Seleciono tudo da tabela transactions
+    const transactions = await knex.select('*').from('transactions')
+    // Envio como objeto caso no futuro queira adicionar mais sessoes
+    return reply.status(200).send({
+      transactions,
+    })
+  })
 
-    return reply.status(200).send(result)
+  app.get('/:id', async (request, reply) => {
+    // Valido o uuid para conseguir ele como parametro
+    const getTransactionByIdSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const { id } = getTransactionByIdSchema.parse(request.params)
+    // Seleciono o id especifico
+    const transaction = await knex('transactions').where('id', id).first()
+
+    return reply.status(201).send(transaction)
+  })
+
+  app.get('/summary', async () => {
+    const summary = await knex('transactions')
+      // Soma tudo que esta em amount, "as" para dar nome a essa soma
+      .sum('amount', { as: 'amount' })
+      .first()
+
+    return { summary }
+  })
+
+  app.delete('/:id', async (request, reply) => {
+    // Valido o id para coseguir passar como parametro
+    const deleteTransactionByIdSchema = z.object({
+      id: z.string(),
+    })
+
+    const { id } = deleteTransactionByIdSchema.parse(request.params)
+    // Deletar o id especifico
+    await knex('transactions').where('id', id).del()
+
+    return reply.status(204).send()
   })
 }
