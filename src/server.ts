@@ -6,7 +6,9 @@ import { transactionsRoutes } from './routes/transactions'
 const app = fastify()
 
 // Registra as rotas, mas é sempre em sequencia
-app.register(transactionsRoutes)
+app.register(transactionsRoutes, {
+  prefix: 'transactions',
+})
 
 // Funçao para atribuir uma porta pra aplicaçao web
 app

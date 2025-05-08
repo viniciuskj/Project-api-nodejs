@@ -9,7 +9,7 @@ const envSchema = z.object({
   PORT: z.number().default(3000),
 })
 
-// safeParce pega os dados do env.Schema e passar pr eles os dados que estao vindo de process.env, e o zod faz a validaçao
+// safeParce pega os dados do env.Schema e passar pra eles os dados que estao vindo de process.env, e o zod faz a validaçao
 const _env = envSchema.safeParse(process.env)
 
 if (_env.success === false) {
